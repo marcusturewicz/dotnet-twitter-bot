@@ -8,7 +8,6 @@ Resources:
     Properties:
       Handler: DotNetTwitterBot::DotNetTwitterBot.Functions::Retweet
       Runtime: dotnetcore2.1
-      CodeUri: ./
       MemorySize: 256
       Timeout: 2
       Events:
