@@ -16,6 +16,7 @@ phases:
       - aws cloudformation package --template-file template.yml --s3-bucket $BUCKET --output-template-file output-template.yml
 artifacts:
   type: zip
+  discard-paths: yes
   files:
     - publish/**/*
     - template.yml
