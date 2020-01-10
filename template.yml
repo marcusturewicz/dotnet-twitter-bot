@@ -12,7 +12,7 @@ Resources:
       MemorySize: 256
       Timeout: 2
       Events:
-        RetweetSchedule:
+        Schedule:
           Type: Schedule
           Properties:
-            Scheulde: rate(5 minutes)
+            Schedule: rate(5 minutes)
