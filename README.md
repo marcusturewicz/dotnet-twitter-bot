@@ -1,2 +1,2 @@
-# dotnet-twitter-bot
+# .NET Twitter Bot
  
