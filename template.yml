@@ -1,0 +1,18 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Transform: AWS::Serverless-2016-10-31
+Description: Serverless Lambda function to search for new .NET tweets and retweet
+  them.
+Resources:
+  Retweet:
+    Type: AWS::Serverless::Function
+    Properties:
+      Handler: DotNetTwitterBot::DotNetTwitterBot.Functions::Retweet
+      Runtime: dotnetcore2.1
+      CodeUri: ./
+      MemorySize: 256
+      Timeout: 2
+      Events:
+        RetweetSchedule:
+          Type: Schedule
+          Properties:
+            Scheulde: rate(5 minutes)

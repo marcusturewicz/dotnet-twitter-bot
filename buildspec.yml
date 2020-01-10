@@ -1,0 +1,17 @@
+version: 0.2
+phases:
+  pre_build:
+    commands:
+      - echo Restore started on `date`
+      - dotnet restore **/*.csproj
+  build:
+    commands:
+      - echo Build started on `date`
+      - dotnet publish -c release **/*.csproj
+      - export BUCKET=dotnet-twitter-bot-build-artifacts
+      - aws cloudformation package --template-file template.yml --s3-bucket $BUCKET --output-template-file output-template.yml
+artifacts:
+  type: zip
+  files:
+    - template.yml
+    - output-template.yml
