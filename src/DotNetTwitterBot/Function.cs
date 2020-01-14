@@ -1,6 +1,8 @@
 using System;
+using System.Collections.Generic;
 using Amazon.Lambda.Core;
 using Tweetinvi;
+using Tweetinvi.Models;
 using Tweetinvi.Parameters;
 
 namespace DotNetTwitterBot
@@ -34,7 +36,17 @@ namespace DotNetTwitterBot
                     Since = searchSince,
                     TweetSearchType = TweetSearchType.OriginalTweetsOnly
                 };
-                var tweets = Search.SearchTweets(param);
+                IEnumerable<ITweet> tweets = null;
+                try
+                {
+                    tweets = Search.SearchTweets(param);
+                }
+                catch (Exception e)
+                {
+                    context.Logger.LogLine($"Exception occured: {e.Message}");
+                    context.Logger.LogLine($"Stack traces: {e.StackTrace}");
+                }
+
                 foreach (var tweet in tweets)
                 {
                     try
