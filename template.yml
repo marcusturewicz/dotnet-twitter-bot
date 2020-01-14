@@ -16,11 +16,9 @@ Resources:
           Properties:
             Schedule: rate(2 minutes)
       Policies:
-        - PolicyName: dotnet-twitter-bot-secret-policy
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - secretsmanager:GetSecretValue
-                Resource: arn:aws:secretsmanager:ap-southeast-2:033094732892:secret:dotnet-twitter-bot-2VuMF5
+      - Version: "2012-10-17"
+        Statement:
+        - Effect: Allow
+          Action:
+              - secretsmanager:GetSecretValue
+          Resource: arn:aws:secretsmanager:ap-southeast-2:033094732892:secret:dotnet-twitter-bot-2VuMF5
