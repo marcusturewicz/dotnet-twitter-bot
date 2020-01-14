@@ -13,7 +13,6 @@ phases:
       - dotnet publish -c release -o . src/DotNetTwitterBot/DotNetTwitterBot.csproj
       - export BUCKET=dotnet-twitter-bot-build-artifacts
       - aws cloudformation package --template-file template.yml --s3-bucket $BUCKET --output-template-file output-template.yml
-      - aws lambda update-function-configuration --function-name retweet --environment "Variables={TWITTER_CONSUMER_KEY=$TWITTER_CONSUMER_KEY,TWITTER_CONSUMER_SECRET_KEY=$TWITTER_CONSUMER_SECRET_KEY,TWITTER_ACCESS_TOKEN=$TWITTER_ACCESS_TOKEN,TWITTER_ACCESS_TOKEN_SECRET=$TWITTER_ACCESS_TOKEN_SECRET}"
 artifacts:
   type: zip
   files:

@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Amazon.Lambda.Core;
 using Tweetinvi;
 using Tweetinvi.Models;
@@ -13,15 +14,11 @@ namespace DotNetTwitterBot
         {
         }
 
-        public void Retweet(ILambdaContext context)
+        public async Task Retweet(ILambdaContext context)
         {
-            context.Logger.LogLine($"Function executed at {DateTime.UtcNow}");
+            var creds = await SecretHelper.GetSecretAsync();
 
-            Auth.SetUserCredentials(
-                Environment.GetEnvironmentVariable("TWITTER_CONSUMER_KEY"),
-                Environment.GetEnvironmentVariable("TWITTER_CONSUMER_SECRET_KEY"),
-                Environment.GetEnvironmentVariable("TWITTER_ACCESS_TOKEN"),
-                Environment.GetEnvironmentVariable("TWITTER_ACCESS_TOKEN_SECRET"));
+            Auth.SetUserCredentials(creds.ConsumerKey, creds.ConsumerSecret, creds.AccessToken, creds.AccessSecret);
 
             var searchTerms = new[] { ".NET Framework", ".NET Core", "dotnet", "dotnetcore", ".NET 5" };
 
