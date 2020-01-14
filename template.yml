@@ -14,7 +14,7 @@ Resources:
         Schedule:
           Type: Schedule
           Properties:
-            Schedule: rate(2 hours)
+            Schedule: rate(15 minutes)
       Policies:
       - Version: "2012-10-17"
         Statement:
