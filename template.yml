@@ -6,10 +6,11 @@ Resources:
   Retweet:
     Type: AWS::Serverless::Function
     Properties:
+      FinctionName: retweet
       Handler: DotNetTwitterBot::DotNetTwitterBot.Functions::Retweet
       Runtime: dotnetcore2.1
       MemorySize: 256
-      Timeout: 15
+      Timeout: 120
       Events:
         Schedule:
           Type: Schedule

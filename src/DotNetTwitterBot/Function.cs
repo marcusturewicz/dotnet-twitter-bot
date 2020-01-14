@@ -39,9 +39,6 @@ namespace DotNetTwitterBot
 
                 var tweets = Search.SearchTweets(param);
 
-                if (tweets == null)
-                    continue;
-
                 foreach (var tweet in tweets)
                 {
                     try
