@@ -6,7 +6,6 @@ Resources:
   Retweet:
     Type: AWS::Serverless::Function
     Properties:
-      FinctionName: retweet
       Handler: DotNetTwitterBot::DotNetTwitterBot.Functions::Retweet
       Runtime: dotnetcore2.1
       MemorySize: 256
