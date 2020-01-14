@@ -22,7 +22,7 @@ namespace DotNetTwitterBot
 
             var searchTerms = new[] { ".NET Framework", ".NET Core", "dotnet", "dotnetcore", ".NET 5" };
 
-            var searchSince = DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(30));
+            var searchSince = DateTime.UtcNow.Subtract(TimeSpan.FromHours(2));
 
             var me = User.GetAuthenticatedUser();
 
