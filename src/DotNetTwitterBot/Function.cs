@@ -36,16 +36,11 @@ namespace DotNetTwitterBot
                     Since = searchSince,
                     TweetSearchType = TweetSearchType.OriginalTweetsOnly
                 };
-                IEnumerable<ITweet> tweets = null;
-                try
-                {
-                    tweets = Search.SearchTweets(param);
-                }
-                catch (Exception e)
-                {
-                    context.Logger.LogLine($"Exception occured: {e.Message}");
-                    context.Logger.LogLine($"Stack traces: {e.StackTrace}");
-                }
+
+                var tweets = Search.SearchTweets(param);
+
+                if (tweets == null)
+                    continue;
 
                 foreach (var tweet in tweets)
                 {
