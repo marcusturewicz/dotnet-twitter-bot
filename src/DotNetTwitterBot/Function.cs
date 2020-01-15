@@ -38,15 +38,8 @@ namespace DotNetTwitterBot
 
                 foreach (var tweet in tweets)
                 {
-                    try
-                    {
-                        Tweet.PublishRetweet(tweet.Id);
-                        me.FollowUser(tweet.CreatedBy.Id);
-                    }
-                    catch (Exception e)
-                    {
-                        context.Logger.LogLine($"Exception occured: {e.Message}");
-                    }
+                    Tweet.PublishRetweet(tweet.Id);
+                    me.FollowUser(tweet.CreatedBy.Id);
                 }
             }
         }
