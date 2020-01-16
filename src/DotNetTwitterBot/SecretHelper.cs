@@ -1,54 +1,53 @@
-
 using System;
 using System.IO;
-
 using Amazon;
 using Amazon.SecretsManager;
 using Amazon.SecretsManager.Model;
-
-
 using System.Threading.Tasks;
 using System.Text;
 using Newtonsoft.Json;
 
-public class SecretHelper
+namespace DotNetTwitterBot
 {
-    public static async Task<Secrets> GetSecretAsync()
+    public class SecretHelper
     {
-        string secretName = "dotnet-twitter-bot";
-        string region = "ap-southeast-2";
-
-        using (var client = new AmazonSecretsManagerClient(RegionEndpoint.GetBySystemName(region)))
+        public static async Task<Secrets> GetSecretAsync()
         {
-            var request = new GetSecretValueRequest() { SecretId = secretName };
-            GetSecretValueResponse response = await client.GetSecretValueAsync(request);
-            string secret = null;
+            string secretName = "dotnet-twitter-bot";
+            string region = "ap-southeast-2";
 
-            if (response.SecretString != null)
+            using (var client = new AmazonSecretsManagerClient(RegionEndpoint.GetBySystemName(region)))
             {
-                secret = response.SecretString;
-            }
-            else
-            {
-                using (var reader = new StreamReader(response.SecretBinary))
+                var request = new GetSecretValueRequest() { SecretId = secretName };
+                GetSecretValueResponse response = await client.GetSecretValueAsync(request);
+                string secret = null;
+
+                if (response.SecretString != null)
                 {
-                    secret = Encoding.UTF8.GetString(Convert.FromBase64String(await reader.ReadToEndAsync()));
+                    secret = response.SecretString;
                 }
-            }
+                else
+                {
+                    using (var reader = new StreamReader(response.SecretBinary))
+                    {
+                        secret = Encoding.UTF8.GetString(Convert.FromBase64String(await reader.ReadToEndAsync()));
+                    }
+                }
 
-            return JsonConvert.DeserializeObject<Secrets>(secret);
+                return JsonConvert.DeserializeObject<Secrets>(secret);
+            }
         }
     }
-}
 
-public class Secrets
-{
-    [JsonProperty("TWITTER_CONSUMER_KEY")]
-    public string ConsumerKey { get; set; }
-    [JsonProperty("TWITTER_CONSUMER_SECRET_KEY")]
-    public string ConsumerSecret { get; set; }
-    [JsonProperty("TWITTER_ACCESS_TOKEN")]
-    public string AccessToken { get; set; }
-    [JsonProperty("TWITTER_ACCESS_TOKEN_SECRET")]
-    public string AccessSecret { get; set; }
+    public class Secrets
+    {
+        [JsonProperty("TWITTER_CONSUMER_KEY")]
+        public string ConsumerKey { get; set; }
+        [JsonProperty("TWITTER_CONSUMER_SECRET_KEY")]
+        public string ConsumerSecret { get; set; }
+        [JsonProperty("TWITTER_ACCESS_TOKEN")]
+        public string AccessToken { get; set; }
+        [JsonProperty("TWITTER_ACCESS_TOKEN_SECRET")]
+        public string AccessSecret { get; set; }
+    }
 }
