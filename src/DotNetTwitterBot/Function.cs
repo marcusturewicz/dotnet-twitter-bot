@@ -20,7 +20,7 @@ namespace DotNetTwitterBot
 
             Auth.SetUserCredentials(creds.ConsumerKey, creds.ConsumerSecret, creds.AccessToken, creds.AccessSecret);
 
-            var searchTerms = new[] { ".NET Framework", ".NET Core", "dotnet", "dotnetcore", ".NET 5" };
+            var searchTerms = new[] { "\".NET Framework\"", "\".NET Core\"", "\".NET 5\"", "dotnet", "dotnetcore" };
 
             var searchSince = DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(10));
 
