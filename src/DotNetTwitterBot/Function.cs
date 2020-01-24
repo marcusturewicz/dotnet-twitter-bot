@@ -31,13 +31,16 @@ namespace DotNetTwitterBot
                 var param = new SearchTweetsParameters(term)
                 {
                     Since = searchSince,
-                    TweetSearchType = TweetSearchType.OriginalTweetsOnly
+                    TweetSearchType = TweetSearchType.OriginalTweetsOnly,
+                    Filters = TweetSearchFilters.Safe
                 };
 
                 var tweets = Search.SearchTweets(param);
 
                 foreach (var tweet in tweets)
                 {
+                    if (!tweet.Text.Contains(term, StringComparison.OrdinalIgnoreCase))
+                        continue;
                     Tweet.PublishRetweet(tweet.Id);
                     me.FollowUser(tweet.CreatedBy.Id);
                 }
