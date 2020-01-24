@@ -41,8 +41,12 @@ namespace DotNetTwitterBot
                 {
                     if (!tweet.Text.Contains(term, StringComparison.OrdinalIgnoreCase))
                         continue;
-                    Tweet.PublishRetweet(tweet.Id);
-                    me.FollowUser(tweet.CreatedBy.Id);
+
+                    var retweetTask = tweet.PublishRetweetAsync();
+                    var followTask = me.FollowUserAsync(tweet.CreatedBy.Id);
+
+                    await retweetTask;
+                    await followTask;
                 }
             }
         }
