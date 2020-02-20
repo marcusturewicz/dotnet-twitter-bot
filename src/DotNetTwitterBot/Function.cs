@@ -39,7 +39,14 @@ namespace DotNetTwitterBot
 
                 foreach (var tweet in tweets)
                 {
+                    // Exclude tweets that don't specifically mention search terms
                     if (!tweet.Text.Contains(term, StringComparison.OrdinalIgnoreCase))
+                        continue;
+
+                    // Exclude tweets that are from automated GitHub issues, except dotnetissues because
+                    // it aggregates them rather than having one separate account for each.
+                    if (tweet.CreatedBy.ScreenName.EndsWith("issues", StringComparison.OrdinalIgnoreCase)
+                        && !tweet.CreatedBy.ScreenName.EndsWith("dotnetissues", StringComparison.OrdinalIgnoreCase))
                         continue;
 
                     var retweetTask = tweet.PublishRetweetAsync();
