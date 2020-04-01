@@ -21,11 +21,11 @@ namespace DotNetTwitterBot
 
             Auth.SetUserCredentials(creds.ConsumerKey, creds.ConsumerSecret, creds.AccessToken, creds.AccessSecret);
 
-            var searchTerms = new[] { $"\".NET Framework\"", "\".NET Core\"", "\".NET 5\"", "dotnet", "dotnetcore", "_dotnetbot_" };
+            var searchTerms = new[] { "\".NET Framework\"", "\".NET Core\"", "\".NET 5\"", "dotnet", "dotnetcore", "_dotnetbot_" };
 
             var searchSince = DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(10));
 
-            var filterTerms = new[] { $@"domain", $@"registration", $@"domainregistration" };
+            var filterTerms = new[] { "domain", "registration", "domainregistration" };
 
             var me = User.GetAuthenticatedUser();
 
