@@ -50,7 +50,7 @@ namespace DotNetTwitterBot
                     if (filterTerms.Any(d => tweet.Text.Contains(d)))
                     {
                         //This sends the questionable tweet to the DM's of the me.User
-                        Message.PublishMessage($"Questionable Tweet : {tweet.Url}", User.GetUserFromScreenName($"{me.ScreenName}").Id);
+                        Message.PublishMessageAsync($"Questionable Tweet : {tweet.Url}", User.GetUserFromScreenName($"{me.ScreenName}").Id);
                         continue;
                     }
                     // Exclude tweets that are from automated GitHub issues, except dotnetissues because
