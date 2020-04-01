@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 using Amazon.Lambda.Core;
 using Tweetinvi;
@@ -24,6 +25,8 @@ namespace DotNetTwitterBot
 
             var searchSince = DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(10));
 
+            var filterTerms = new[] { "domain", "registration", "domainregistration" };
+
             var me = User.GetAuthenticatedUser();
 
             foreach (var term in searchTerms)
@@ -43,6 +46,13 @@ namespace DotNetTwitterBot
                     if (!tweet.Text.Contains(term, StringComparison.OrdinalIgnoreCase))
                         continue;
 
+                    // Exclude tweets that contain excluded words.
+                    if (filterTerms.Any(d => tweet.Text.Contains(d)))
+                    {
+                        //This sends the questionable tweet to the DM's of the me.User
+                        await Message.PublishMessageAsync($"Questionable Tweet : {tweet.Url}", User.GetUserFromScreenName($"{me.ScreenName}").Id);
+                        continue;
+                    }
                     // Exclude tweets that are from automated GitHub issues, except dotnetissues because
                     // it aggregates them rather than having one separate account for each.
                     if (tweet.CreatedBy.ScreenName.EndsWith("issues", StringComparison.OrdinalIgnoreCase)
