@@ -10,7 +10,7 @@ phases:
   build:
     commands:
       - echo Build started on `date`
-      - dotnet publish -c release -o . src/DotNetTwitterBot/DotNetTwitterBot.csproj
+      - dotnet publish -p:PublishReadyToRun=true -r linux-x64 -c release -o . src/DotNetTwitterBot/DotNetTwitterBot.csproj
       - export BUCKET=dotnet-twitter-bot-build-artifacts
       - aws cloudformation package --template-file template.yml --s3-bucket $BUCKET --output-template-file output-template.yml
 artifacts:

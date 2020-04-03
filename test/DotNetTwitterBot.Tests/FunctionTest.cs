@@ -19,11 +19,11 @@ namespace DotNetTwitterBot.Tests
         }
 
         [Fact]
-        public void TetGetMethod()
+        public async Task TetGetMethod()
         {
             var functions = new Functions();
             var context = new TestLambdaContext();
-            functions.Retweet(context);
+            await functions.Retweet(context);
         }
     }
 }

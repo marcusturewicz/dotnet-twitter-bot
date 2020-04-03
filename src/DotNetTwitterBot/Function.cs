@@ -48,11 +48,8 @@ namespace DotNetTwitterBot
 
                     // Exclude tweets that contain excluded words.
                     if (filterTerms.Any(d => tweet.Text.Contains(d)))
-                    {
-                        //This sends the questionable tweet to the DM's of the me.User
-                        await MessageAsync.PublishMessage($"Questionable Tweet : {tweet.Url}", User.GetUserFromScreenName($"{me.ScreenName}").Id);
                         continue;
-                    }
+
                     // Exclude tweets that are from automated GitHub issues, except dotnetissues because
                     // it aggregates them rather than having one separate account for each.
                     if (tweet.CreatedBy.ScreenName.EndsWith("issues", StringComparison.OrdinalIgnoreCase)
