@@ -25,7 +25,7 @@ namespace DotNetTwitterBot
 
             var searchSince = DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(10));
 
-            var filterTerms = new[] { "domain", "registration", "domainregistration" };
+            var filterTerms = new[] { "domain", "registration", "domainregistration", "@paul_dotnet" };
 
             var me = User.GetAuthenticatedUser();
 
@@ -47,7 +47,7 @@ namespace DotNetTwitterBot
                         continue;
 
                     // Exclude tweets that contain excluded words.
-                    if (filterTerms.Any(d => tweet.Text.Contains(d)))
+                    if (filterTerms.Any(d => tweet.Text.Contains(d, StringComparison.OrdinalIgnoreCase)))
                         continue;
 
                     // Exclude tweets that are from automated GitHub issues, except dotnetissues because
