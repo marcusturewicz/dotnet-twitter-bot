@@ -23,7 +23,7 @@ namespace DotNetTwitterBot
 
             var searchTerms = new[] { "\".NET Framework\"", "\".NET Core\"", "\".NET 5\"", "dotnet", "dotnetcore", "_dotnetbot_" };
 
-            var searchSince = DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(10));
+            var searchSince = DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(35));
 
             var filterTerms = new[] { "domain", "registration", "domainregistration", "@paul_dotnet" };
 
