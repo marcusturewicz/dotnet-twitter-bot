@@ -33,13 +33,13 @@ namespace DotNetTwitterBot
             var me = User.GetAuthenticatedUser();
 
             await Task.WhenAll(
-                SearchAndRetweetTweets(string.Join(' ', SearchTerms), searchSince, me),
-                SearchAndRetweetTweets(string.Join(' ', SearchTracks), searchSince, me));
+                SearchAndRetweetTweets(SearchTerms, searchSince, me),
+                SearchAndRetweetTweets(SearchTracks, searchSince, me));
 
-            static async Task SearchAndRetweetTweets(string query, DateTime searchSince, IAuthenticatedUser me)
+            static async Task SearchAndRetweetTweets(string[] terms, DateTime searchSince, IAuthenticatedUser me)
             {
                 var filterTerms = new[] { "domain", "registration", "domainregistration", "@paul_dotnet" };
-
+                var query = string.Join(' ', terms);
                 var param = new SearchTweetsParameters(query)
                 {
                     Since = searchSince,
@@ -51,7 +51,7 @@ namespace DotNetTwitterBot
                 foreach (var tweet in tweets)
                 {
                     // Exclude tweets that don't specifically mention search terms
-                    if (!query.Split(" ").Any(term => tweet.Text.Contains(term, StringComparison.OrdinalIgnoreCase)))
+                    if (!terms.Any(term => tweet.Text.Contains(term, StringComparison.OrdinalIgnoreCase)))
                         continue;
 
                     // Exclude tweets that contain excluded words.
