@@ -1,5 +1,4 @@
 using System;
-using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Amazon.Lambda.Core;
@@ -11,39 +10,48 @@ namespace DotNetTwitterBot
 {
     public class Functions
     {
-        public Functions()
+        static readonly string[] SearchTerms = new[]
         {
-        }
+            "\".NET Framework\"",
+            "\".NET Core\"",
+            "\".NET 5\""
+        };
+
+        static readonly string[] SearchTracks = new[]
+        {
+            "#dotnet",
+            "#dotnetcore",
+            "@_dotnetbot_"
+        };
 
         public async Task Retweet(ILambdaContext context)
         {
             var creds = await SecretHelper.GetSecretAsync();
-
             Auth.SetUserCredentials(creds.ConsumerKey, creds.ConsumerSecret, creds.AccessToken, creds.AccessSecret);
-
-            var searchTerms = new[] { "\".NET Framework\"", "\".NET Core\"", "\".NET 5\"", "dotnet", "dotnetcore", "_dotnetbot_" };
-
+            
             var searchSince = DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(35));
-
-            var filterTerms = new[] { "domain", "registration", "domainregistration", "@paul_dotnet" };
-
             var me = User.GetAuthenticatedUser();
 
-            foreach (var term in searchTerms)
+            await Task.WhenAll(
+                SearchAndRetweetTweets(SearchTerms, searchSince, me),
+                SearchAndRetweetTweets(SearchTracks, searchSince, me));
+
+            static async Task SearchAndRetweetTweets(string[] terms, DateTime searchSince, IAuthenticatedUser me)
             {
-                var param = new SearchTweetsParameters(term)
+                var filterTerms = new[] { "domain", "registration", "domainregistration", "@paul_dotnet" };
+                var query = string.Join(" OR ", terms);
+                var param = new SearchTweetsParameters(query)
                 {
                     Since = searchSince,
                     TweetSearchType = TweetSearchType.OriginalTweetsOnly,
                     Filters = TweetSearchFilters.Safe
                 };
 
-                var tweets = Search.SearchTweets(param);
-
+                var tweets = await SearchAsync.SearchTweets(param);
                 foreach (var tweet in tweets)
                 {
                     // Exclude tweets that don't specifically mention search terms
-                    if (!tweet.Text.Contains(term, StringComparison.OrdinalIgnoreCase))
+                    if (!terms.Any(term => tweet.Text.Contains(term, StringComparison.OrdinalIgnoreCase)))
                         continue;
 
                     // Exclude tweets that contain excluded words.
@@ -59,8 +67,7 @@ namespace DotNetTwitterBot
                     var retweetTask = tweet.PublishRetweetAsync();
                     var followTask = me.FollowUserAsync(tweet.CreatedBy.Id);
 
-                    await retweetTask;
-                    await followTask;
+                    await Task.WhenAll(retweetTask, followTask);
                 }
             }
         }
