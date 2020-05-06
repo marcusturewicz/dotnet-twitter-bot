@@ -39,7 +39,7 @@ namespace DotNetTwitterBot
             static async Task SearchAndRetweetTweets(string[] terms, DateTime searchSince, IAuthenticatedUser me)
             {
                 var filterTerms = new[] { "domain", "registration", "domainregistration", "@paul_dotnet" };
-                var query = string.Join(' ', terms);
+                var query = string.Join(" OR ", terms);
                 var param = new SearchTweetsParameters(query)
                 {
                     Since = searchSince,
