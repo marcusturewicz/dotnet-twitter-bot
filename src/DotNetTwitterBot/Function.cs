@@ -21,7 +21,8 @@ namespace DotNetTwitterBot
         {
             "#dotnet",
             "#dotnetcore",
-            "@_dotnetbot_"
+            "#dotnet5",
+            "#dotnet6"
         };
 
         public async Task Retweet(ILambdaContext context)
