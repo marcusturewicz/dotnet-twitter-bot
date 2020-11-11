@@ -12,13 +12,10 @@ namespace DotNetTwitterBot
     {
         static readonly string[] SearchTerms = new[]
         {
-            "\".NET Framework\"",
-            "\".NET Core\"",
-            "\".NET 5\""
-        };
-
-        static readonly string[] SearchTracks = new[]
-        {
+            "\".NET AND Framework\"",
+            "\".NET AND Core\"",
+            "\".NET AND 5\"",
+            "\".NET AND 6\"",
             "#dotnet",
             "#dotnetcore",
             "#dotnet5",
@@ -33,9 +30,7 @@ namespace DotNetTwitterBot
             var searchSince = DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(35));
             var me = User.GetAuthenticatedUser();
 
-            await Task.WhenAll(
-                SearchAndRetweetTweets(SearchTerms, searchSince, me),
-                SearchAndRetweetTweets(SearchTracks, searchSince, me));
+            await SearchAndRetweetTweets(SearchTerms, searchSince, me);
 
             static async Task SearchAndRetweetTweets(string[] terms, DateTime searchSince, IAuthenticatedUser me)
             {
