@@ -27,7 +27,7 @@ namespace DotNetTwitterBot
             var creds = await SecretHelper.GetSecretAsync();
             Auth.SetUserCredentials(creds.ConsumerKey, creds.ConsumerSecret, creds.AccessToken, creds.AccessSecret);
             
-            var searchSince = DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(35));
+            var searchSince = DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(31));
             var me = User.GetAuthenticatedUser();
 
             await SearchAndRetweetTweets(SearchTerms, searchSince, me);
