@@ -50,10 +50,7 @@ namespace DotNetTwitterBot
                     if (filterTerms.Any(d => tweet.Text.Contains(d, StringComparison.OrdinalIgnoreCase)))
                         continue;
 
-                    var retweetTask = tweet.PublishRetweetAsync();
-                    var followTask = me.FollowUserAsync(tweet.CreatedBy.Id);
-
-                    await Task.WhenAll(retweetTask, followTask);
+                    await tweet.PublishRetweetAsync();
                 }
             }
         }
