@@ -26,7 +26,7 @@ namespace DotNetTwitterBot
         {
             var creds = await SecretHelper.GetSecretAsync();
             Auth.SetUserCredentials(creds.ConsumerKey, creds.ConsumerSecret, creds.AccessToken, creds.AccessSecret);
-            
+
             var searchSince = DateTime.UtcNow.Subtract(TimeSpan.FromMinutes(31));
             var me = User.GetAuthenticatedUser();
 
@@ -48,6 +48,10 @@ namespace DotNetTwitterBot
                 {
                     // Exclude tweets that contain excluded words.
                     if (filterTerms.Any(d => tweet.Text.Contains(d, StringComparison.OrdinalIgnoreCase)))
+                        continue;
+
+                    // Exclude tweets that have more than 5 hashtags
+                    if (tweet.Hashtags.Count > 10)
                         continue;
 
                     await tweet.PublishRetweetAsync();
