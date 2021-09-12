@@ -14,8 +14,11 @@ jobs:
     - name: Setup .NET
       uses: actions/setup-dotnet@v1
       with:
-        dotnet-version: 3.1.404
+        dotnet-version: 3.1.x
     - name: Restore dependencies
-      run: dotnet restore src/DotNetTwitterBot
+      run: dotnet restore
     - name: Build
-      run: dotnet build src/DotNetTwitterBot --no-restore
+      run: dotnet build --no-restore
+    - name: Test
+      run: dotnet test --no-build
+
