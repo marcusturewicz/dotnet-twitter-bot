@@ -2,6 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using Amazon.Lambda.Core;
+using Microsoft.ML.OnnxRuntime;
 using Tweetinvi;
 using Tweetinvi.Models;
 using Tweetinvi.Parameters;
@@ -16,10 +17,12 @@ namespace DotNetTwitterBot
             "\".NET AND Core\"",
             "\".NET AND 5\"",
             "\".NET AND 6\"",
+            "\".NET AND 7\"",
             "#dotnet",
             "#dotnetcore",
             "#dotnet5",
-            "#dotnet6"
+            "#dotnet6",
+            "#dotnet7"
         };
 
         public async Task Retweet(ILambdaContext context)
@@ -34,7 +37,6 @@ namespace DotNetTwitterBot
 
             static async Task SearchAndRetweetTweets(string[] terms, DateTime searchSince, IAuthenticatedUser me)
             {
-                var filterTerms = new[] { "domain", "registration", "domainregistration", "@paul_dotnet" };
                 var query = string.Join(" OR ", terms);
                 var param = new SearchTweetsParameters(query)
                 {
@@ -44,18 +46,15 @@ namespace DotNetTwitterBot
                 };
 
                 var tweets = await SearchAsync.SearchTweets(param);
-                foreach (var tweet in tweets)
-                {
-                    // Exclude tweets that contain excluded words.
-                    if (filterTerms.Any(d => tweet.Text.Contains(d, StringComparison.OrdinalIgnoreCase)))
-                        continue;
 
-                    // Exclude tweets that have more than 5 hashtags
-                    if (tweet.Hashtags.Count > 10)
-                        continue;
+                var spamFilter = new SpamFilter("spam_filter.onnx");
 
-                    await tweet.PublishRetweetAsync();
-                }
+                var isSpam = spamFilter.Run(tweets.Select(t => t.Text)).ToArray();
+
+                tweets.Select(async (t, i) => {
+                    if (!isSpam[i])
+                        await t.PublishRetweetAsync();
+                });
             }
         }
     }

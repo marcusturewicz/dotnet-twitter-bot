@@ -1,0 +1,7 @@
+pandas
+openpyxl
+snorkel
+matplotlib
+scikit-learn
+skl2onnx
+onnxruntime
