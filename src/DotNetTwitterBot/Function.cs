@@ -51,10 +51,12 @@ namespace DotNetTwitterBot
 
                 var isSpam = spamFilter.Run(tweets.Select(t => t.Text)).ToArray();
 
-                tweets.Select(async (t, i) => {
+                var tasks = tweets.Select(async (t, i) => {
                     if (!isSpam[i])
                         await t.PublishRetweetAsync();
                 });
+
+                await Task.WhenAll(tasks);
             }
         }
     }
