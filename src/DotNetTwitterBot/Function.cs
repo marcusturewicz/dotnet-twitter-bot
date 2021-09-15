@@ -49,7 +49,7 @@ namespace DotNetTwitterBot
 
                 var spamFilter = new SpamFilter("spam_filter.onnx");
 
-                var isSpam = spamFilter.Run(tweets.Select(t => t.Text)).ToArray();
+                var isSpam = spamFilter.Run(tweets.Select(t => $"RT @{t.CreatedBy.ScreenName} : {t.Text}")).ToArray();
 
                 var tasks = tweets.Select(async (t, i) => {
                     if (!isSpam[i])
