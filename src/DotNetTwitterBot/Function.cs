@@ -42,7 +42,8 @@ namespace DotNetTwitterBot
                 {
                     Since = searchSince,
                     TweetSearchType = TweetSearchType.OriginalTweetsOnly,
-                    Filters = TweetSearchFilters.Safe
+                    Filters = TweetSearchFilters.Safe,
+                    MaximumNumberOfResults = 1000
                 };
 
                 var tweets = await SearchAsync.SearchTweets(param);
