@@ -11,7 +11,7 @@ namespace DotNetTwitterBot
         private readonly string _inputName = "input";
         private readonly string _outputName = "output_probability";
         private readonly int _spamIndex = 1;
-        private readonly float _spamThreshold = 0.5f;
+        private readonly float _spamThreshold = 0.4f;
 
         public SpamFilter(string modelPath)
         {
