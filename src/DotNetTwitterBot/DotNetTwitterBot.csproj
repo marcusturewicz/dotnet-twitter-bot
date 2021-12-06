@@ -6,7 +6,7 @@
   </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.Core" Version="2.1.0" />
-    <PackageReference Include="AWSSDK.SecretsManager" Version="3.7.1.56" />
+    <PackageReference Include="AWSSDK.SecretsManager" Version="3.7.1.58" />
     <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.9.0" />
     <PackageReference Include="TweetinviAPI" Version="4.0.3" />
   </ItemGroup>
