@@ -6,8 +6,8 @@ Resources:
   Retweet:
     Type: AWS::Serverless::Function
     Properties:
-      Handler: DotNetTwitterBot::DotNetTwitterBot.Functions::Retweet
-      Runtime: dotnetcore3.1
+      Handler: DotNetTwitterBot
+      Runtime: dotnet6
       MemorySize: 1024
       Timeout: 300
       Events:
