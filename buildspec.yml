@@ -1,8 +1,8 @@
 version: 0.2
 phases:
   install:
-    runtime-versions:
-        dotnet: 6.0
+    commands:
+      - /usr/local/bin/dotnet-install.sh --channel LTS
   pre_build:
     commands:
       - echo Restore started on `date`
