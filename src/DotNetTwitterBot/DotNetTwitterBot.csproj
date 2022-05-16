@@ -8,7 +8,7 @@
   <ItemGroup>
     <PackageReference Include="Amazon.Lambda.Core" Version="2.1.0" />
     <PackageReference Include="Amazon.Lambda.RuntimeSupport" Version="1.7.0" />
-    <PackageReference Include="AWSSDK.SecretsManager" Version="3.7.2.25" />
+    <PackageReference Include="AWSSDK.SecretsManager" Version="3.7.2.42" />
     <PackageReference Include="Microsoft.ML.OnnxRuntime" Version="1.11.0" />
     <PackageReference Include="TweetinviAPI" Version="4.0.3" />
   </ItemGroup>
